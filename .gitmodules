@@ -1,0 +1,3 @@
+[submodule "Plugins/Socketer"]
+	path = Plugins/Socketer
+	url = https://github.com/Burningsnail/Socketer.git
