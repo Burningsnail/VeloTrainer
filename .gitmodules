@@ -1,3 +1,6 @@
 [submodule "Plugins/Socketer"]
 	path = Plugins/Socketer
 	url = https://github.com/Burningsnail/Socketer.git
+[submodule "Plugins/ble-utilities-unreal"]
+	path = Plugins/ble-utilities-unreal
+	url = https://github.com/NinevaStudios/ble-utilities-unreal.git

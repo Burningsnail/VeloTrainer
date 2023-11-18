@@ -12,6 +12,14 @@
 				"PhysXVehicles",
 				"Engine"
 			]
+		},
+		{
+			"Name": "SimpleBLE",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		}
 	],
 	"Plugins": [
@@ -31,6 +39,15 @@
 		{
 			"Name": "RuntimePhysXCooking",
 			"Enabled": false
+		},
+		{
+			"Name": "BleUtilities",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/9ad1594e91da4da1aa72fb617697c9f7"
+		},
+		{
+			"Name": "DMXEngine",
+			"Enabled": true
 		}
 	]
 }

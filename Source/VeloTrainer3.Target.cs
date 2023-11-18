@@ -10,6 +10,6 @@ public class VeloTrainer3Target : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "VeloTrainer3" } );
+		ExtraModuleNames.AddRange( new string[] { "VeloTrainer3", "SimpleBLE" } );
 	}
 }
