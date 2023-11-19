@@ -14,7 +14,7 @@
 			]
 		},
 		{
-			"Name": "SimpleBLE",
+			"Name": "UEAdapterSimpleBLE",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
