@@ -1,9 +1,10 @@
 
 #pragma once
 #include "CoreMinimal.h"
-THIRD_PARTY_INCLUDES_START
-#include <../ThirdParty/UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h>
-THIRD_PARTY_INCLUDES_END
+
+// THIRD_PARTY_INCLUDES_START
+// #include <../ThirdParty/UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h>
+// THIRD_PARTY_INCLUDES_END
 
 #include "BLEManager.generated.h"
 
@@ -23,12 +24,21 @@ UCLASS(BlueprintType, Blueprintable)
 class UEADAPTERSIMPLEBLE_API UBLEManager: public UObject{
     GENERATED_BODY()
     public:
+
         UBLEManager();
 		UFUNCTION(BlueprintCallable, Category = "BLE")
 		void isBluetoothEnabled( bool& result );
 
+        //void BeginDestroy override;
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+		void isScanning( bool& result, bool& result_valid );
+
         UFUNCTION(BlueprintCallable, Category = "BLE")
 		void collectAdapter();
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+		void connectRoutine();
 
 		UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
 		bool bluetoothEnabled;
@@ -75,10 +85,10 @@ class UEADAPTERSIMPLEBLE_API UBLEManager: public UObject{
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         TArray<FString> characteristics_data;
 
-        SimpleBLE::Safe::Adapter* adapter;
-        // SimpleBLE::Peripheral device_object;
-        SimpleBLE::Safe::Peripheral* device;
-
+        // SimpleBLE::Adapter adapter;
+        // // SimpleBLE::Peripheral device_object;
+        // //std::shared_ptr< SimpleBLE::Safe::Peripheral > device;
+        // SimpleBLE::Peripheral device;
 
         //Dispatched
         UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "BLE" )
