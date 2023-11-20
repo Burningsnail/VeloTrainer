@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 
 THIRD_PARTY_INCLUDES_START
-#include <../ThirdParty/UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h>
+#include "UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h"
 THIRD_PARTY_INCLUDES_END
 
 #include "BLEManager.generated.h"
@@ -21,7 +21,7 @@ UDELEGATE(BlueprintCallable, Category = "BLE")
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNotifyRead, TArray<uint8>, data );
 
 UCLASS(BlueprintType, Blueprintable)
-class UEADAPTERSIMPLEBLE_API UBLEManager: public UObject{
+class UEADAPTERSIMPLEBLEMODULE_API UBLEManager: public UObject{
     GENERATED_BODY()
     public:
 

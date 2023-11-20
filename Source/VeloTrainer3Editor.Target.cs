@@ -10,6 +10,6 @@ public class VeloTrainer3EditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "VeloTrainer3", "UEAdapterSimpleBLE" } );
+		ExtraModuleNames.AddRange( new string[] { "VeloTrainer3" } );
 	}
 }

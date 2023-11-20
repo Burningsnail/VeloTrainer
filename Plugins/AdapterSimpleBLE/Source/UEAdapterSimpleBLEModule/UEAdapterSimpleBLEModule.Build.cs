@@ -26,7 +26,8 @@ public class UEAdapterSimpleBLEModule : ModuleRules
 				"Core",
                 "CoreUObject", 
                 "Engine", 
-                "InputCore"
+                "InputCore",
+                "UEAdapterSimpleBLE"
 			}
 		);
         PrivateDependencyModuleNames.AddRange(

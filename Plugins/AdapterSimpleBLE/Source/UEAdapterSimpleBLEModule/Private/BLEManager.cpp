@@ -1,7 +1,7 @@
 #include "BLEManager.h"
 #include "UObject/UObjectBaseUtility.h"
 THIRD_PARTY_INCLUDES_START
-#include <../ThirdParty/UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h>
+#include "UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h"
 THIRD_PARTY_INCLUDES_END
 
 enum state_BLE{

@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "EAdapterSimpleBLE.h"
+#include "AdapterSimpleBLE.h"
 #include "Core.h"
 #include "Modules/ModuleManager.h"
 #include "Interfaces/IPluginManager.h"
@@ -13,7 +13,7 @@ void FAdapterSimpleBLEModule::StartupModule()
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
 	// Get the base directory of this plugin
-	FString BaseDir = IPluginManager::Get().FindPlugin("EAdapterSimpleBLE")->GetBaseDir();
+	FString BaseDir = IPluginManager::Get().FindPlugin("AdapterSimpleBLE")->GetBaseDir();
 
 	// Add on the relative location of the third party dll and load it
 	FString LibraryPath;
@@ -50,4 +50,4 @@ void FAdapterSimpleBLEModule::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FAdapterSimpleBLEModule, EAdapterSimpleBLE)
+IMPLEMENT_MODULE(FAdapterSimpleBLEModule, AdapterSimpleBLE)
