@@ -240,6 +240,10 @@ void UBLEManager::connectRoutine(){
 
     asyncBLE = new FAsyncBLE();
     asyncBLE->ScanDuration  = 10000;
+    asyncBLE->state = stateBLE::CHECKING_BLUETOOTH;
+    asyncBLE->bStateInitialized = false;
+    asyncBLE->ServiceUUID = this->services_array[0];
+    asyncBLE->CharacteristicUUID = this->characteristics_array[0];
     asyncBLE->bInputReady = true;
     //asyncBLE = thread;
     // try{
@@ -299,6 +303,7 @@ void UBLEManager::UpdateState(){
         return;
     }
     state_name = asyncBLE->state_name;
+    state = (int)asyncBLE->state;
 
 }
 void UBLEManager::DeviceName( FString& name ){
