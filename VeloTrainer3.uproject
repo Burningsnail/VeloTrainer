@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.27",
+	"EngineAssociation": "{2EAB1F87-4918-5E4F-97C8-E6802C5131B2}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -10,14 +10,6 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"PhysXVehicles",
-				"Engine"
-			]
-		},
-		{
-			"Name": "UEAdapterSimpleBLE",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
 				"Engine"
 			]
 		}

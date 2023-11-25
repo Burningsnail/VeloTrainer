@@ -30,7 +30,7 @@ void FAdapterSimpleBLEModule::StartupModule()
 	if (ExampleLibraryHandle)
 	{
 		// Call the test function in the third party library that opens a message box
-		ExampleLibraryFunction();
+		//ExampleLibraryFunction();
 	}
 	else
 	{

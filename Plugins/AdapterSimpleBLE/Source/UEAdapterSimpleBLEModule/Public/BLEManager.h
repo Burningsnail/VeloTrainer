@@ -5,8 +5,10 @@
 THIRD_PARTY_INCLUDES_START
 #include "UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h"
 THIRD_PARTY_INCLUDES_END
-
+#include "AsyncBLE.h"
 #include "BLEManager.generated.h"
+
+
 
 UDELEGATE(BlueprintCallable, Category = "BLE")
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FonSpeedChange, float, new_speed);
@@ -26,6 +28,13 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEManager: public UObject{
     public:
 
         UBLEManager();
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+		void Init();
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+		void DeInit();
+
 		UFUNCTION(BlueprintCallable, Category = "BLE")
 		void isBluetoothEnabled( bool& result );
 
@@ -56,6 +65,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEManager: public UObject{
 		void DeviceDisconnect();
 
         UFUNCTION(BlueprintCallable, Category = "BLE")
+		void DeviceName( FString& name );
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
 		void ConnectCurrentDevice();
 
         UFUNCTION(BlueprintCallable, Category = "BLE")
@@ -63,6 +75,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEManager: public UObject{
 
         UFUNCTION(BlueprintCallable, Category = "BLE")
 		void Subscribe( const FString ServiceUUID, const FString CharacteristicUUID);
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+		void UpdateState();
 
 		UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
 		int state;
@@ -85,10 +100,12 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEManager: public UObject{
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         TArray<FString> characteristics_data;
 
-        SimpleBLE::Adapter adapter;
-        // // SimpleBLE::Peripheral device_object;
-        // //std::shared_ptr< SimpleBLE::Safe::Peripheral > device;
-        SimpleBLE::Peripheral device;
+        UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
+        int ScanDuration;
+
+        SimpleBLE::Adapter* adapter;
+
+        SimpleBLE::Peripheral* device;
 
         //Dispatched
         UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "BLE" )
@@ -102,4 +119,7 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEManager: public UObject{
 
         UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "BLE" )
         FOnNotifyRead onNotifyRead;
+
+        FAsyncBLE* asyncBLE;
+
 };
