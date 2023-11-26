@@ -237,14 +237,18 @@ void UBLEManager::isScanning( bool& result, bool& result_valid ){
     }
 }
 void UBLEManager::connectRoutine(){
+    try{
+        asyncBLE = new FAsyncBLE();
+        asyncBLE->ScanDuration  = 10000;
+        asyncBLE->state = stateBLE::CHECKING_BLUETOOTH;
+        asyncBLE->bStateInitialized = false;
+        asyncBLE->ServiceUUID = this->services_array[0];
+        asyncBLE->CharacteristicUUID = this->characteristics_array[0];
+        asyncBLE->bInputReady = true;
+    }catch(...){
+        state_name = FString("Error in BLE thread");
+    }
 
-    asyncBLE = new FAsyncBLE();
-    asyncBLE->ScanDuration  = 10000;
-    asyncBLE->state = stateBLE::CHECKING_BLUETOOTH;
-    asyncBLE->bStateInitialized = false;
-    asyncBLE->ServiceUUID = this->services_array[0];
-    asyncBLE->CharacteristicUUID = this->characteristics_array[0];
-    asyncBLE->bInputReady = true;
     //asyncBLE = thread;
     // try{
     //     auto adapter_list = SimpleBLE::Adapter::get_adapters();
