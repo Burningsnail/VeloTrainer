@@ -1,6 +1,14 @@
 .git
 .vs
 .vscode
+Content
+DerivedDataCache
 Intermediate
 Saved
+Script
+ThirdParty
+Plugins/AdapterSimpleBLE/Content
+Plugins/AdapterSimpleBLE/Intermediate
+Plugins/ble-utilities-unreal/Content
+Plugins/Socketer/Content
 Plugins/Socketer/Intermediate

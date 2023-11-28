@@ -41,6 +41,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEAdapter: public UObject{
         UFUNCTION(BlueprintCallable, Category = "BLE")
         void CheckAdapterPointer(bool& pointerIsOk);
 
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+        void SelectDevice( int index );
+
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         FString state_name;
 
@@ -50,5 +53,8 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEAdapter: public UObject{
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         int state;
 
-		TSharedPtr<FAsyncBLE> AsyncBLE;
+        UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
+        UBLEDevice* device;
+
+		TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe> AsyncBLE;
 };

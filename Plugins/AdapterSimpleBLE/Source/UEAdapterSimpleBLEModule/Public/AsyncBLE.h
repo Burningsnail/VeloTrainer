@@ -2,9 +2,12 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "HAL/Runnable.h"
+#include "BLEDevice.h"
 THIRD_PARTY_INCLUDES_START
 #include "UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h"
 THIRD_PARTY_INCLUDES_END
+
+class UBLEDevice;
 
 enum stateBLE{
     IDLE = 0,
@@ -21,7 +24,7 @@ class UEADAPTERSIMPLEBLEMODULE_API FAsyncBLE : public FRunnable{
 public:
 
     FAsyncBLE();
-    ~FAsyncBLE();
+    // ~FAsyncBLE();
     virtual uint32_t Run() override;
     virtual bool Init() override{
         return true;
@@ -33,8 +36,9 @@ public:
     }
     FRunnableThread*    Thread;
     // UBLEManager*        Manager;
-    SimpleBLE::Adapter *adapter = nullptr;
-    SimpleBLE::Peripheral *device = nullptr;
+    TSharedPtr< SimpleBLE::Adapter, ESPMode::ThreadSafe > adapter = NULL;
+    TSharedPtr< SimpleBLE::Peripheral, ESPMode::ThreadSafe > device = NULL;
+    TArray< TSharedPtr< SimpleBLE::Peripheral, ESPMode::ThreadSafe > > devices;
     FString state_name;
     bool bRunBLE = true;
     bool bBlueToothEnabled = false;
@@ -45,5 +49,5 @@ public:
     bool bStateInitialized = false;
     FString ServiceUUID;
     FString CharacteristicUUID;
-    std::vector<SimpleBLE::Peripheral> devices;
+    //std::vector<SimpleBLE::Peripheral> devices;
 };

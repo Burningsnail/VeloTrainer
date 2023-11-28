@@ -1,11 +1,10 @@
 #include "BLEAdapter.h"
 
 UBLEAdapter::UBLEAdapter(){
-
 }
 void UBLEAdapter::InitRoutine(){
     try{
-        AsyncBLE = MakeShared<FAsyncBLE>();
+        AsyncBLE = MakeShared<FAsyncBLE, ESPMode::ThreadSafe>();
         AsyncBLE->ScanDuration  = 10000;
         AsyncBLE->state = stateBLE::CHECKING_BLUETOOTH;
         AsyncBLE->bStateInitialized = false;
@@ -69,7 +68,7 @@ void UBLEAdapter::CheckAdapterPointer(bool& pointerIsOk){
     if( !AsyncBLE->bOutputReady){
         return;
     }
-    pointerIsOk =   AsyncBLE->adapter? true: false;
+    pointerIsOk =   AsyncBLE->adapter != NULL? true: false;
 }
 void UBLEAdapter::IsAdapterInitialized(bool& initialized){
     initialized = false;
@@ -87,4 +86,23 @@ void UBLEAdapter::IsAdapterInitialized(bool& initialized){
         initialized = AsyncBLE->adapter->initialized();
     }
 
+}
+void UBLEAdapter::SelectDevice( int index ){
+    if( !AsyncBLE ){
+        return;
+    }
+    state = (int)AsyncBLE->state;
+    if( state != stateBLE::IDLE ){
+        return;
+    }
+    if( !AsyncBLE->bOutputReady){
+        return;
+    }
+    if(AsyncBLE->devices.Num() <= index ){
+        return;
+    }
+    AsyncBLE->device = AsyncBLE->devices[index];
+    device = NewObject<UBLEDevice>();
+    device->Device = AsyncBLE->device;
+    //device->Init( AsyncBLE->device );
 }

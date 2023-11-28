@@ -20,6 +20,10 @@ public class UEAdapterSimpleBLEModule : ModuleRules
         // Settings go here
         PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
         CppStandard = CppStandardVersion.Cpp17;
+
+        // https://answers.unrealengine.com/questions/51798/how-can-i-enable-unwind-semantics-for-c-style-exce.html
+        bEnableExceptions = true;
+
         PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
