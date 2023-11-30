@@ -43,7 +43,7 @@ public class UEAdapterSimpleBLEModule : ModuleRules
         //PublicDefinitions.Add("WITH_UEADAPTERSIMPLEBLE=1");
 
         string LibrariesPath = Path.Combine(ThirdPartyPath, "UEAdapterSimpleBLE", "lib");
-        PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "simpleble.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "simpleble-c.lib"));
         // PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "simpleble.dll"));
         PublicIncludePaths.Add( Path.Combine( ThirdPartyPath, "UEAdapterSimpleBLE", "include" ) );
     }

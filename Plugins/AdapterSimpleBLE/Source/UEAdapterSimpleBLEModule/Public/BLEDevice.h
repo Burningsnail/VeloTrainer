@@ -3,7 +3,7 @@
 #include "Templates/SharedPointer.h"
 #include "AsyncBLE.h"
 THIRD_PARTY_INCLUDES_START
-#include "UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h"
+#include "UEAdapterSimpleBLE/include/simpleble_c/simpleble.h"
 THIRD_PARTY_INCLUDES_END
 #include "BLEDevice.generated.h"
 
@@ -21,6 +21,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
         UFUNCTION(BlueprintCallable, Category = "BLE")
         void UpdateDeviceInfo();
 
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+        void UpdateServices();
+
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         FString name;
 
@@ -35,9 +38,13 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
 
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         bool isConnected;
+        
+        UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
+        TArray<FString> Services;
 
         //void Init( TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>  asyncManager , TSharedPtr<SimpleBLE::Peripheral, ESPMode::ThreadSafe> peripheral );
 
-        TSharedPtr<SimpleBLE::Peripheral, ESPMode::ThreadSafe>   Device;
+        TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe>   Device;
+        simpleble_peripheral_t Device_ptr;
         //TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>               AsyncBLE;
 };

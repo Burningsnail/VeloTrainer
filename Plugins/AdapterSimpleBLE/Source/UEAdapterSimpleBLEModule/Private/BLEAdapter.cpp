@@ -54,11 +54,11 @@ void UBLEAdapter::UpdateState(){
     }
     state_name = AsyncBLE->state_name;
     outputReady = AsyncBLE->bOutputReady;
-
+    devicesCount = AsyncBLE->devices_ptrs.Num();
 }
 void UBLEAdapter::CheckAdapterPointer(bool& pointerIsOk){
     pointerIsOk = false;
-    if( !AsyncBLE ){
+    if( !AsyncBLE.IsValid() ){
         return;
     }
     state = (int)AsyncBLE->state;
@@ -68,34 +68,17 @@ void UBLEAdapter::CheckAdapterPointer(bool& pointerIsOk){
     if( !AsyncBLE->bOutputReady){
         return;
     }
-    pointerIsOk =   AsyncBLE->adapter != NULL? true: false;
+    pointerIsOk =  AsyncBLE->adapter.IsValid();
 }
 void UBLEAdapter::IsAdapterInitialized(bool& initialized){
-    initialized = false;
-    if( !AsyncBLE ){
-        return;
-    }
-    state = (int)AsyncBLE->state;
-    if( state != stateBLE::IDLE ){
-        return;
-    }
-    if( !AsyncBLE->bOutputReady){
-        return;
-    }
-    if( AsyncBLE->adapter ){
-        initialized = AsyncBLE->adapter->initialized();
-    }
 
 }
 void UBLEAdapter::SelectDevice( int index ){
-    if( !AsyncBLE ){
+    if( !AsyncBLE.IsValid() ){
         return;
     }
     state = (int)AsyncBLE->state;
     if( state != stateBLE::IDLE ){
-        return;
-    }
-    if( !AsyncBLE->bOutputReady){
         return;
     }
     if(AsyncBLE->devices.Num() <= index ){
@@ -104,5 +87,5 @@ void UBLEAdapter::SelectDevice( int index ){
     AsyncBLE->device = AsyncBLE->devices[index];
     device = NewObject<UBLEDevice>();
     device->Device = AsyncBLE->device;
-    //device->Init( AsyncBLE->device );
+    device->Device_ptr = AsyncBLE->devices_ptrs[index];
 }

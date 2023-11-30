@@ -4,7 +4,7 @@
 #include "HAL/Runnable.h"
 #include "BLEDevice.h"
 THIRD_PARTY_INCLUDES_START
-#include "UEAdapterSimpleBLE/include/simpleble/SimpleBLE.h"
+#include "UEAdapterSimpleBLE/include/simpleble_c/simpleble.h"
 THIRD_PARTY_INCLUDES_END
 
 class UBLEDevice;
@@ -36,9 +36,12 @@ public:
     }
     FRunnableThread*    Thread;
     // UBLEManager*        Manager;
-    TSharedPtr< SimpleBLE::Adapter, ESPMode::ThreadSafe > adapter = NULL;
-    TSharedPtr< SimpleBLE::Peripheral, ESPMode::ThreadSafe > device = NULL;
-    TArray< TSharedPtr< SimpleBLE::Peripheral, ESPMode::ThreadSafe > > devices;
+    TSharedPtr< simpleble_adapter_t, ESPMode::ThreadSafe > adapter = NULL;
+    simpleble_adapter_t adapter_ptr = nullptr;
+    TSharedPtr< simpleble_peripheral_t, ESPMode::ThreadSafe > device = NULL;
+    simpleble_peripheral_t device_ptr = nullptr;
+    TArray< TSharedPtr< simpleble_peripheral_t, ESPMode::ThreadSafe > > devices;
+    TArray< simpleble_peripheral_t > devices_ptrs;
     FString state_name;
     bool bRunBLE = true;
     bool bBlueToothEnabled = false;
@@ -49,5 +52,6 @@ public:
     bool bStateInitialized = false;
     FString ServiceUUID;
     FString CharacteristicUUID;
+    FString BLEAdapterIdentifier;
     //std::vector<SimpleBLE::Peripheral> devices;
 };

@@ -55,6 +55,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEAdapter: public UObject{
 
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         UBLEDevice* device;
+        
+        UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
+        int devicesCount;
 
 		TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe> AsyncBLE;
 };
