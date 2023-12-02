@@ -4,8 +4,13 @@ UBLEDevice::UBLEDevice(){
 
 }
 
+// UBLEDevice::~UBLEDevice(){
+//     // delete Device_ptr;
+// }
+
 void UBLEDevice::CheckDevicePointer(bool& pointerIsOk){
-    pointerIsOk =   Device != NULL? true: false;
+    //pointerIsOk =   Device != NULL? true: false;
+    pointerIsOk =   Device_ptr != nullptr;
 }
 void UBLEDevice::UpdateDeviceInfo(){
     // if( !Device.IsValid() ){

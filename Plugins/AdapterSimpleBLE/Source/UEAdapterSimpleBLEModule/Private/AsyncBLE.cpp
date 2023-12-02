@@ -3,7 +3,7 @@
 void on_device_found(simpleble_adapter_t adapter, simpleble_peripheral_t peripheral, void* userdata){
     ((FAsyncBLE*)userdata)->state_name = FString("Device found");
     TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe> new_peripheral = MakeShared<simpleble_peripheral_t, ESPMode::ThreadSafe>(peripheral);
-    ((FAsyncBLE*)userdata)->devices.Add( new_peripheral );
+    //((FAsyncBLE*)userdata)->devices.Add( new_peripheral );
     ((FAsyncBLE*)userdata)->devices_ptrs.Add( peripheral );
 };
 
@@ -35,9 +35,14 @@ FAsyncBLE::FAsyncBLE(){
         UE_LOG(LogTemp, Warning, TEXT("new thread"));
         Thread = FRunnableThread::Create(this, TEXT("AsyncBLE Thread"));
 }
-// FAsyncBLE::~FAsyncBLE(){
-//     this->bRunBLE = false;
-// }
+FAsyncBLE::~FAsyncBLE(){
+    // this->bRunBLE = false;
+    delete device_ptr;
+    for( int i = 0; i < devices_ptrs.Num(); i++ ){
+        delete devices_ptrs[i];
+    }
+    delete adapter_ptr;
+}
 uint32_t FAsyncBLE::Run(){
 
     //std::vector< SimpleBLE::Peripheral > devices;
@@ -103,7 +108,7 @@ uint32_t FAsyncBLE::Run(){
             bOutputReady = false;
             bStateInitialized = true;
             UE_LOG(LogTemp, Warning, TEXT("pre IF"));
-            if(adapter == nullptr){
+            if(adapter_ptr == nullptr){
                 
                 UE_LOG(LogTemp, Warning, TEXT("get Adapters"));
                 size_t adapter_count = simpleble_adapter_get_count();
@@ -125,7 +130,7 @@ uint32_t FAsyncBLE::Run(){
                 //     UE_LOG(LogTemp, Warning, TEXT("adapter_list is 0"));
                 // }
                 adapter_ptr = simpleble_adapter_get_handle(0);
-                adapter = MakeShared<simpleble_adapter_t, ESPMode::ThreadSafe>(adapter_ptr);
+                //adapter = MakeShared<simpleble_adapter_t, ESPMode::ThreadSafe>(adapter_ptr);
                 BLEAdapterIdentifier = FString(simpleble_adapter_identifier(adapter_ptr));    
             }
             UE_LOG(LogTemp, Warning, TEXT("if Adapter is null"));
@@ -158,7 +163,7 @@ uint32_t FAsyncBLE::Run(){
             //scan
             //Manager->startScan();
             UE_LOG(LogTemp, Warning, TEXT("set Callback for scan"));
-            this->devices.Empty();
+            //this->devices.Empty();
             this->devices_ptrs.Empty();
             
             state_name = FString("Scan");
@@ -247,9 +252,9 @@ uint32_t FAsyncBLE::Run(){
 void FAsyncBLE::Exit(){
 
     bRunBLE = false;
-    if( adapter ){
-        //delete adapter;
-    }
+    // if( adapter ){
+    //     //delete adapter;
+    // }
     // if( device ){
     //     //delete device;
     // }

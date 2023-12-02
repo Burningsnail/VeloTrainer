@@ -72,7 +72,7 @@ void UBLEAdapter::CheckAdapterPointer(bool& pointerIsOk){
     if( !AsyncBLE->bOutputReady){
         return;
     }
-    pointerIsOk =  AsyncBLE->adapter.IsValid();
+    pointerIsOk =  AsyncBLE->adapter_ptr != nullptr;//.IsValid();
 }
 void UBLEAdapter::IsAdapterInitialized(bool& initialized){
 
@@ -85,13 +85,16 @@ void UBLEAdapter::SelectDevice( int index ){
     if( state != stateBLE::IDLE ){
         return;
     }
-    if(AsyncBLE->devices.Num() <= index ){
+    // if(AsyncBLE->devices.Num() <= index ){
+    //     return;
+    // }
+    //AsyncBLE->device = AsyncBLE->devices[index];
+    if(AsyncBLE->devices_ptrs[index] == nullptr ){
         return;
     }
-    //AsyncBLE->device = AsyncBLE->devices[index];
     AsyncBLE->device_ptr = AsyncBLE->devices_ptrs[index];
     device = NewObject<UBLEDevice>();
-    device->Device = AsyncBLE->devices[index];
+    //device->Device = AsyncBLE->devices[index];
     device->Device_ptr = AsyncBLE->devices_ptrs[index];
 }
 void UBLEAdapter::GetDeviceData(FString characteristicUUID,TArray< uint8 >& data){
@@ -109,4 +112,10 @@ void UBLEAdapter::PrepareService(FString serviceUUID,FString characteristicUUID)
     }
     AsyncBLE->ServiceUUID         = serviceUUID;            
     AsyncBLE->CharacteristicUUID  = characteristicUUID;
+}
+void UBLEAdapter::EndThread(){
+    if( !AsyncBLE.IsValid() ){
+        return;
+    }
+    AsyncBLE->bRunBLE = false;
 }

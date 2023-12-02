@@ -26,6 +26,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEAdapter: public UObject{
         UFUNCTION(BlueprintCallable, Category = "BLE")
 		void InitRoutine();
 
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+		void EndThread();
+
         // UFUNCTION(BlueprintCallable, Category = "BLE")
 		// void CheckBlueTooth( bool& succes );
 

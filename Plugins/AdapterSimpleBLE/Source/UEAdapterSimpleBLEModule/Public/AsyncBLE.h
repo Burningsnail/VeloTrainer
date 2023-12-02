@@ -26,7 +26,7 @@ class UEADAPTERSIMPLEBLEMODULE_API FAsyncBLE : public FRunnable{
 public:
 
     FAsyncBLE();
-    // ~FAsyncBLE();
+    ~FAsyncBLE();
     virtual uint32_t Run() override;
     virtual bool Init() override{
         return true;
@@ -38,11 +38,11 @@ public:
     }
     FRunnableThread*    Thread;
     // UBLEManager*        Manager;
-    TSharedPtr< simpleble_adapter_t, ESPMode::ThreadSafe > adapter = NULL;
+    // TSharedPtr< simpleble_adapter_t, ESPMode::ThreadSafe > adapter = NULL;
     simpleble_adapter_t adapter_ptr = nullptr;
     // TSharedPtr< simpleble_peripheral_t, ESPMode::ThreadSafe > device = NULL;
     simpleble_peripheral_t device_ptr = nullptr;
-    TArray< TSharedPtr< simpleble_peripheral_t, ESPMode::ThreadSafe > > devices;
+    // TArray< TSharedPtr< simpleble_peripheral_t, ESPMode::ThreadSafe > > devices;
     TArray< simpleble_peripheral_t > devices_ptrs; //needed for collecting found devices
     FString state_name;
     bool bRunBLE = true;

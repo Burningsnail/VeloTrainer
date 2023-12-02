@@ -14,6 +14,7 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
     GENERATED_BODY()
     public:
         UBLEDevice();
+        //~UBLEDevice();
 
         UFUNCTION(BlueprintCallable, Category = "BLE")
         void CheckDevicePointer(bool& pointerIsOk);
@@ -50,7 +51,7 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
 
         //void Init( TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>  asyncManager , TSharedPtr<SimpleBLE::Peripheral, ESPMode::ThreadSafe> peripheral );
 
-        TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe>   Device;//do not use
+        //TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe>   Device;//do not use
         simpleble_peripheral_t Device_ptr; //pointer to the library device handle
         //TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>               AsyncBLE;
 };
