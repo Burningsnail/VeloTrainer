@@ -30,6 +30,10 @@ void UBLEAdapter::PerformBLEProcedure( FString procedure, bool& success){
         AsyncBLE->state = stateBLE::COLLECTING_ADAPTERS;
     }else if(procedure == "Scan"){
         AsyncBLE->state = stateBLE::SCANNING;
+    }else if(procedure == "Read"){
+        AsyncBLE->state = stateBLE::READING;
+    }else if(procedure == "Connect"){
+        AsyncBLE->state = stateBLE::CONNECTING;
     }else{
        AsyncBLE->state = stateBLE::ERROR;
        success = false;
@@ -84,8 +88,25 @@ void UBLEAdapter::SelectDevice( int index ){
     if(AsyncBLE->devices.Num() <= index ){
         return;
     }
-    AsyncBLE->device = AsyncBLE->devices[index];
+    //AsyncBLE->device = AsyncBLE->devices[index];
+    AsyncBLE->device_ptr = AsyncBLE->devices_ptrs[index];
     device = NewObject<UBLEDevice>();
-    device->Device = AsyncBLE->device;
+    device->Device = AsyncBLE->devices[index];
     device->Device_ptr = AsyncBLE->devices_ptrs[index];
+}
+void UBLEAdapter::GetDeviceData(FString characteristicUUID,TArray< uint8 >& data){
+    if( !AsyncBLE.IsValid() ){
+        return;
+    }
+    if( AsyncBLE->CharacteristicBytes.Find(characteristicUUID) == nullptr ){
+        return;
+    }
+    data = *(AsyncBLE->CharacteristicBytes.Find(characteristicUUID));
+}
+void UBLEAdapter::PrepareService(FString serviceUUID,FString characteristicUUID){
+    if( !AsyncBLE.IsValid() ){
+        return;
+    }
+    AsyncBLE->ServiceUUID         = serviceUUID;            
+    AsyncBLE->CharacteristicUUID  = characteristicUUID;
 }

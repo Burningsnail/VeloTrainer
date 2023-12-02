@@ -21,6 +21,9 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
         UFUNCTION(BlueprintCallable, Category = "BLE")
         void UpdateDeviceInfo();
 
+        //UFUNCTION(BlueprintCallable, Category = "BLE")
+        //void UpdateDeviceData();
+
         UFUNCTION(BlueprintCallable, Category = "BLE")
         void UpdateServices();
 
@@ -42,9 +45,12 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         TArray<FString> Services;
 
+        //UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
+        //TMap<FString, TArray<uint8> > CharacteristicData;
+
         //void Init( TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>  asyncManager , TSharedPtr<SimpleBLE::Peripheral, ESPMode::ThreadSafe> peripheral );
 
-        TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe>   Device;
-        simpleble_peripheral_t Device_ptr;
+        TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe>   Device;//do not use
+        simpleble_peripheral_t Device_ptr; //pointer to the library device handle
         //TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>               AsyncBLE;
 };

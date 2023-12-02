@@ -44,6 +44,12 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEAdapter: public UObject{
         UFUNCTION(BlueprintCallable, Category = "BLE")
         void SelectDevice( int index );
 
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+        void GetDeviceData(FString characteristicUUID,TArray< uint8 >& data);
+
+        UFUNCTION(BlueprintCallable, Category = "BLE")
+        void PrepareService(FString serviceUUID,FString characteristicUUID);
+
         UPROPERTY(EditAnywhere, blueprintreadwrite, Category = "BLE" )
         FString state_name;
 

@@ -22,9 +22,10 @@ void UBLEDevice::UpdateDeviceInfo(){
     simpleble_err_t error_result_connectable = simpleble_peripheral_is_connectable(Device_ptr,&connectable);
     simpleble_err_t error_result_paired = simpleble_peripheral_is_paired(Device_ptr,&paired);
     simpleble_err_t error_result_connected = simpleble_peripheral_is_connected(Device_ptr,&isConnected);
-    name += FString(error_result_connectable ? "-connectable":"-no connectable");
-    name += FString(error_result_paired ? "-paired":"-no paired");
-    name += FString(error_result_connected ? "-connected":"-no connected");
+
+    // name += FString(error_result_connectable ? "-connectable":"-no connectable");
+    // name += FString(error_result_paired ? "-paired":"-no paired");
+    // name += FString(error_result_connected ? "-connected":"-no connected");
 
 }
 void UBLEDevice::UpdateServices(){
@@ -37,6 +38,9 @@ void UBLEDevice::UpdateServices(){
     }
     
 }
+// void UBLEDevice::UpdateDeviceData(){
+//     Data = AsyncBLE->Bytes;
+// }
 // void UBLEDevice::Init(  TSharedPtr<FAsyncBLE, ESPMode::ThreadSafe>  asyncManager , TSharedPtr<SimpleBLE::Peripheral, ESPMode::ThreadSafe> peripheral ){
 //     //AsyncBLE = asyncManager;
 //     Device = peripheral;

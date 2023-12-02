@@ -16,6 +16,20 @@ void on_scan_stopped(simpleble_adapter_t adapter, void* userdata){
 
 }
 
+void on_notify( simpleble_uuid_t service, simpleble_uuid_t characteristic,
+                                             const uint8_t* data, size_t data_length, void* userdata ){
+    //TMap<FString, TArray<uint8> > CharacteristicData;                                                
+    ((TArray<uint8>*)userdata)->Empty();
+    for( int i =0; i < data_length; i++ ){
+        ((TArray<uint8>*)userdata)->Add(data[i]);
+    }
+    
+}
+// void on_connected( simpleble_peripheral_t peripheral, void* userdata ){
+//     ((FAsyncBLE*) userdata)->bStateInitialized = false;
+//     ((FAsyncBLE*) userdata)->state = stateBLE::IDLE;
+//     ((FAsyncBLE*) userdata)->bOutputReady = true;     
+// }
 FAsyncBLE::FAsyncBLE(){
         bRunBLE = true;
         UE_LOG(LogTemp, Warning, TEXT("new thread"));
@@ -40,8 +54,11 @@ uint32_t FAsyncBLE::Run(){
             FPlatformProcess::Sleep(1.0f);
             continue;
         }
-        size_t count_found_devices = 0;
-        simpleble_err_t err;
+        size_t              count_found_devices = 0;
+        simpleble_err_t     err;
+        simpleble_uuid_t    service;
+        simpleble_uuid_t    characteristic;
+        TArray< uint8 > dataContainer;
 
         switch (state)
         {
@@ -168,84 +185,55 @@ uint32_t FAsyncBLE::Run(){
                 state_name = FString("scan stop set callback failure");
             }
             err = simpleble_adapter_scan_for(adapter_ptr, ScanDuration);
-            // if( err ){
-            //     state_name = FString("Scan failed");
-            //     bStateInitialized = false;
-            //     state = stateBLE::IDLE;
-            //     bOutputReady = true;
-            //     break;
-            // }
-
-
-
-            //FPlatformProcess::Sleep((float)ScanDuration / 1000.f);
-            //count results
-            //count_found_devices = simpleble_adapter_scan_get_results_count(adapter.Get());
-            // for( int i = 0; i< count_found_devices; i++){
-            //     TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe> new_peripheral = MakeShared<simpleble_peripheral_t, ESPMode::ThreadSafe>(simpleble_adapter_scan_get_results_handle(adapter.Get(), i));
-            //     this->devices.Add( new_peripheral );
-            // }
-
-            // state_name = FString("Scan has been stopped. Found ") + FString::FromInt( this->devices.Num() ) + FString(" devices.");
-            // bStateInitialized = false;
-            // state = stateBLE::IDLE;
-            // bOutputReady = true;
 
             break;
+
+
         case stateBLE::CONNECTING:
             bStateInitialized = true;
 
             this->state_name = FString("Connecting to deive");
-            simpleble_peripheral_connect(device.Get());
-            this->state_name = FString("Connected"); 
-
+            // simpleble_peripheral_set_callback_on_connected(
+            //     this->device_ptr,
+            //     on_connected, 
+            //     this
+            // );
+            if( this->device_ptr == nullptr ){
+                state_name = FString("Device pointer failure");
+                bStateInitialized = false;
+                state = stateBLE::IDLE;
+                bOutputReady = true;
+                break;
+            }
+            err = simpleble_peripheral_connect( this->device_ptr );
+            // error
+            if( err ){
+                state_name = FString("Connect failure");
+            }
             bStateInitialized = false;
             state = stateBLE::IDLE;
             bOutputReady = true;
-            // FPlatformProcess::Sleep(1.0f);
-            // if(!&devices[i]){
-            //     continue;
-            // }
-            // if( !devices[i].is_paired() ){
-            //     //this->state_name = FString("Not paired");
-            //     FPlatformProcess::Sleep(1.0f);
-            //     continue;  
-            // }
-            // //this->state_name = FString("paired");
-            // FPlatformProcess::Sleep(1.0f);
-            // }catch( SimpleBLE::Exception::BaseException err ){
-            //     //this->state_name = FString("Error device ") + FString(err.what());
-            //     FPlatformProcess::Sleep(1.0f);
-            //     continue;
-            // }
-            // devices[i].set_callback_on_connected( [ this, &devices, &i ] () {
-
-            //     this->state_name = FString("Conneced to ") + FString(devices[i].address().value_or("no-address").c_str() );
-            //     FPlatformProcess::Sleep(1.0f);
-            //     auto services = peripheral.services();
-            //     if( !services.has_value() ){
-            //         this->state_name = FString("no services ");
-            //         periphedevices[i]ral.disconnect();
-            //         return;
-            //     }
-            //     this->state_name = FString("services ");
-            //     this->state_name.AppendInt( services->size() );
-            //     for (auto service : services.value() ) {
-            //         FPlatformProcess::Sleep(5.0f);
-            //         this->state_name = FString("Service found: ") + FString(service.uuid().c_str());
-            //         if( this->ServiceUUID == FString( service.uuid().c_str() ) ){
-            //             this->device = &device[i]; 
-            //             this->state_name = FString("Service found");
-            //         }
-            //         //ServicesUUIDs.Add( FString( service.uuid().c_str() ) );
-            //     }
-            //     devices[i].disconnect();
-            //     FPlatformProcess::Sleep(1.0f);
-            // } );
-
-               
+            // this->state_name = FString("Connected");        
             
             break;
+
+
+        case stateBLE::READING:
+            bStateInitialized = true;
+            
+            CharacteristicBytes.Add(CharacteristicUUID, dataContainer);
+            memcpy(service.value,           StringCast<ANSICHAR>(*ServiceUUID).Get(),           SIMPLEBLE_UUID_STR_LEN);
+            memcpy(characteristic.value,    StringCast<ANSICHAR>(*CharacteristicUUID).Get(),    SIMPLEBLE_UUID_STR_LEN);
+
+            simpleble_peripheral_notify(device_ptr, 
+                                        service,  
+                                        characteristic,
+                                        on_notify,
+                                        (void*) CharacteristicBytes.Find( CharacteristicUUID ));
+            
+            bStateInitialized = false;
+            state = stateBLE::IDLE;
+            bOutputReady = true;  
 
         default:
             FPlatformProcess::Sleep(1.0f);
@@ -262,7 +250,7 @@ void FAsyncBLE::Exit(){
     if( adapter ){
         //delete adapter;
     }
-    if( device ){
-        //delete device;
-    }
+    // if( device ){
+    //     //delete device;
+    // }
 }
