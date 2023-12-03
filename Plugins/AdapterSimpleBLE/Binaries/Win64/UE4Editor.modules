@@ -1,0 +1,8 @@
+{
+	"BuildId": "17155196",
+	"Modules": 
+	{
+		"AdapterSimpleBLE": "UE4Editor-AdapterSimpleBLE.dll",
+		"UEAdapterSimpleBLEModule": "UE4Editor-UEAdapterSimpleBLEModule.dll"
+	}
+}

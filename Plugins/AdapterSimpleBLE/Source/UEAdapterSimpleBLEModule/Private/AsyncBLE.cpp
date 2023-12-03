@@ -20,7 +20,7 @@ void on_notify( simpleble_uuid_t service, simpleble_uuid_t characteristic,
                                              const uint8_t* data, size_t data_length, void* userdata ){
     //TMap<FString, TArray<uint8> > CharacteristicData;                                                
     ((TArray<uint8>*)userdata)->Empty();
-    for( int i =0; i < data_length; i++ ){
+    for( unsigned int i =0; i < data_length; i++ ){
         ((TArray<uint8>*)userdata)->Add(data[i]);
     }
     
@@ -136,17 +136,15 @@ uint32_t FAsyncBLE::Run(){
             UE_LOG(LogTemp, Warning, TEXT("if Adapter is null"));
             // FPlatformProcess::Sleep(3.0f);
 
-            if( adapter_ptr == nullptr ){
-                //ptr_i = reinterpret_cast<std::uintptr_t>(adapter);
-                //state_name = FString("Adapter: ") ;//+ FString::FromInt(ptr_i);
+            if( adapter_ptr != nullptr ){
+                //adapter was found
                 state_name = FString("BLE adapter found");
                 bStateInitialized = false;
                 state = stateBLE::IDLE;
                 bOutputReady = true;
 
             }else{
-                //get once more
-                //state_name = FString("Adapter not found");
+                //adpater pointer is null - no adapters are found
                 state_name = FString("BLE adapter not found");
                 bStateInitialized = false;
                 state = stateBLE::IDLE;

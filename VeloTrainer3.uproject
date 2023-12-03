@@ -25,7 +25,7 @@
 		},
 		{
 			"Name": "KantanCharts",
-			"Enabled": false,
+			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/89bd18db011b4bd19606db2e31020f13"
 		},
 		{
@@ -34,7 +34,7 @@
 		},
 		{
 			"Name": "BleUtilities",
-			"Enabled": false,
+			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/9ad1594e91da4da1aa72fb617697c9f7"
 		}
 	]

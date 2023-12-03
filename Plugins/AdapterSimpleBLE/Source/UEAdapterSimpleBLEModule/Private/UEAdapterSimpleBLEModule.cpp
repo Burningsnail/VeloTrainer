@@ -2,7 +2,7 @@
 #include "Modules/ModuleManager.h"
 // #include <SimpleBLE/SimpleBLE.h>
 
-IMPLEMENT_MODULE(FDefaultModuleImpl, UEAdapterSimpleBLE);
+IMPLEMENT_MODULE(FDefaultModuleImpl, UEAdapterSimpleBLEModule);
 
 // void FUEAdapterSimpleBLE::StartupModule()
 // {

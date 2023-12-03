@@ -27,7 +27,7 @@ public:
 
     FAsyncBLE();
     ~FAsyncBLE();
-    virtual uint32_t Run() override;
+    uint32_t Run() override;
     virtual bool Init() override{
         return true;
     }
