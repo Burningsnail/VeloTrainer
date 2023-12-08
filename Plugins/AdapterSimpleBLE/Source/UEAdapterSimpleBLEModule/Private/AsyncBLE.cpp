@@ -1,6 +1,9 @@
 #include "AsyncBLE.h"
 
 void on_device_found(simpleble_adapter_t adapter, simpleble_peripheral_t peripheral, void* userdata){
+    if(userdata == nullptr){
+        return;
+    }
     ((FAsyncBLE*)userdata)->state_name = FString("Device found");
     TSharedPtr<simpleble_peripheral_t, ESPMode::ThreadSafe> new_peripheral = MakeShared<simpleble_peripheral_t, ESPMode::ThreadSafe>(peripheral);
     //((FAsyncBLE*)userdata)->devices.Add( new_peripheral );
@@ -8,7 +11,9 @@ void on_device_found(simpleble_adapter_t adapter, simpleble_peripheral_t periphe
 };
 
 void on_scan_stopped(simpleble_adapter_t adapter, void* userdata){
-
+    if(userdata == nullptr){
+        return;
+    }
     ((FAsyncBLE*)userdata)->state_name = FString("Stop scanning");
     ((FAsyncBLE*)userdata)->bStateInitialized = false;
     ((FAsyncBLE*)userdata)->state = stateBLE::IDLE;
@@ -35,14 +40,11 @@ FAsyncBLE::FAsyncBLE(){
         UE_LOG(LogTemp, Warning, TEXT("new thread"));
         Thread = FRunnableThread::Create(this, TEXT("AsyncBLE Thread"));
 }
-FAsyncBLE::~FAsyncBLE(){
-    // this->bRunBLE = false;
-    delete device_ptr;
-    for( int i = 0; i < devices_ptrs.Num(); i++ ){
-        delete devices_ptrs[i];
-    }
-    delete adapter_ptr;
-}
+// FAsyncBLE::~FAsyncBLE(){
+//     // this->bRunBLE = false;
+
+    
+// }
 uint32_t FAsyncBLE::Run(){
 
     //std::vector< SimpleBLE::Peripheral > devices;
@@ -244,6 +246,25 @@ uint32_t FAsyncBLE::Run(){
         }
         
     }
+
+    if( device_ptr != nullptr ){
+        //delete device_ptr;
+        simpleble_peripheral_release_handle( device_ptr );
+    }
+    // if( devices_ptrs.IsValid() ){
+    //     for( int i = 0; i < devices_ptrs.Num(); i++ ){
+    //         if(  devices_ptrs[i] != nullptr ){
+    //             simpleble_peripheral_release_handle( devices_ptrs[i] );
+    //         }
+    //         //delete devices_ptrs[i];
+
+    //     }
+    // }
+    if( adapter_ptr != nullptr ){
+        simpleble_adapter_release_handle( adapter_ptr );
+    }
+    //delete adapter_ptr;
+    FPlatformProcess::Sleep(1.0f);
     return 0;
 
 }

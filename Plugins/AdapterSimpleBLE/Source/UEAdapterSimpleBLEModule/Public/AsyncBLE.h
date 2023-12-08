@@ -26,7 +26,7 @@ class UEADAPTERSIMPLEBLEMODULE_API FAsyncBLE : public FRunnable{
 public:
 
     FAsyncBLE();
-    ~FAsyncBLE();
+    //~FAsyncBLE();
     uint32_t Run() override;
     virtual bool Init() override{
         return true;
