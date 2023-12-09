@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.27",
+	"EngineAssociation": "5.3",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -9,7 +9,6 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"PhysXVehicles",
 				"Engine"
 			]
 		}
@@ -20,12 +19,8 @@
 			"Enabled": true
 		},
 		{
-			"Name": "PhysXVehicles",
-			"Enabled": true
-		},
-		{
 			"Name": "KantanCharts",
-			"Enabled": true,
+			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/89bd18db011b4bd19606db2e31020f13"
 		},
 		{
@@ -36,6 +31,10 @@
 			"Name": "BleUtilities",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/9ad1594e91da4da1aa72fb617697c9f7"
+		},
+		{
+			"Name": "ChaosVehiclesPlugin",
+			"Enabled": true
 		}
 	]
 }

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SimpleWheeledVehicleMovementComponent.h"
 #include "BikeMovementComponent.generated.h"
 
 /**
