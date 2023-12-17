@@ -35,6 +35,10 @@
 		{
 			"Name": "ChaosVehiclesPlugin",
 			"Enabled": true
+		},
+		{
+			"Name": "BikeMovementComponent",
+			"Enabled": false
 		}
 	]
 }
