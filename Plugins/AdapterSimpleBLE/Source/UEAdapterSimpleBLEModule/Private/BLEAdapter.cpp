@@ -4,13 +4,13 @@ UBLEAdapter::UBLEAdapter(){
 }
 void UBLEAdapter::InitRoutine(){
     try{
-        AsyncBLE = MakeShared<FAsyncBLE, ESPMode::ThreadSafe>();
-        AsyncBLE->ScanDuration  = 10000;
-        AsyncBLE->state = stateBLE::CHECKING_BLUETOOTH;
-        AsyncBLE->bStateInitialized = false;
-        AsyncBLE->ServiceUUID = FString("");
-        AsyncBLE->CharacteristicUUID = FString("");
-        AsyncBLE->bInputReady = true;
+        AsyncBLE                        = MakeShared< FAsyncBLE, ESPMode::ThreadSafe >();
+        AsyncBLE->ScanDuration          = 10000;
+        AsyncBLE->state                 = stateBLE::CHECKING_BLUETOOTH;
+        AsyncBLE->bStateInitialized     = false;
+        AsyncBLE->ServiceUUID           = FString("");
+        AsyncBLE->CharacteristicUUID    = FString("");
+        AsyncBLE->bInputReady           = true;
     }catch(...){
         UE_LOG(LogTemp, Warning, TEXT("BLE Thread error"));
     }
@@ -118,4 +118,30 @@ void UBLEAdapter::EndThread(){
         return;
     }
     AsyncBLE->bRunBLE = false;
+}
+void UBLEAdapter::BeginDestroy(){
+
+    if( AsyncBLE.IsValid() ){
+
+        AsyncBLE->bRunBLE = false;
+
+        
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //! Wait here until JoyThread is verified as having stopped!
+        //!
+        //! This is a safety feature, that will delay PIE EndPlay or
+        //! closing of the game while complex calcs occurring on the 
+        //! thread have a chance to finish
+        //!
+        while( !AsyncBLE->HasStopped )
+        {
+            FPlatformProcess::Sleep(0.1);
+        }
+
+        AsyncBLE.Reset();
+
+    }
+    AsyncBLE = nullptr;
+    Super::BeginDestroy();
+
 }

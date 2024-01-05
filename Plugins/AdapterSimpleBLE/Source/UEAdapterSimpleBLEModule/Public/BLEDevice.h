@@ -14,6 +14,7 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEDevice: public UObject{
     GENERATED_BODY()
     public:
         UBLEDevice();
+        
         //~UBLEDevice();
 
         UFUNCTION(BlueprintCallable, Category = "BLE")

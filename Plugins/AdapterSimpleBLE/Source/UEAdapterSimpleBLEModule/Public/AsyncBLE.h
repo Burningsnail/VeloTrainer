@@ -2,7 +2,11 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "HAL/Runnable.h"
+#include "HAL/ThreadSafeBool.h"
 #include "BLEDevice.h"
+	
+#include "Misc/SingleThreadRunnable.h"
+
 THIRD_PARTY_INCLUDES_START
 #include "UEAdapterSimpleBLE/include/simpleble_c/simpleble.h"
 THIRD_PARTY_INCLUDES_END
@@ -21,12 +25,13 @@ enum stateBLE{
     ERROR = 10
 
 };
-class UEADAPTERSIMPLEBLEMODULE_API FAsyncBLE : public FRunnable{
+class UEADAPTERSIMPLEBLEMODULE_API FAsyncBLE : public FRunnable, FSingleThreadRunnable/*for environments with no multithreading*/{
 
 public:
 
     FAsyncBLE();
-    //~FAsyncBLE();
+    virtual ~FAsyncBLE();
+    
     uint32_t Run() override;
     virtual bool Init() override{
         return true;
@@ -36,6 +41,24 @@ public:
     virtual void Stop() override{
 
     }
+
+    //from Rama's code https://dev.epicgames.com/community/learning/tutorials/7Rz/unreal-engine-rama-code-multi-threading-in-ue5-c
+    //FRunnable interface
+    /**
+     * Returns a pointer to the single threaded interface when mulithreading is disabled.
+     */
+    virtual FSingleThreadRunnable* GetSingleThreadInterface() override
+    {
+        return this;
+    }
+
+    // FSingleThreadRunnable interface
+    virtual void Tick() override
+    {
+    }
+
+    void BLETick();
+
     FRunnableThread*    Thread;
     // UBLEManager*        Manager;
     // TSharedPtr< simpleble_adapter_t, ESPMode::ThreadSafe > adapter = NULL;
@@ -58,4 +81,6 @@ public:
     TArray< uint8 > Bytes;          //received bytes
     TMap<FString, TArray<uint8> > CharacteristicBytes;
     //std::vector<SimpleBLE::Peripheral> devices;
+
+    FThreadSafeBool HasStopped;
 };

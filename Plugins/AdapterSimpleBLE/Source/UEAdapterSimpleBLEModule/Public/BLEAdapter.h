@@ -23,6 +23,8 @@ class UEADAPTERSIMPLEBLEMODULE_API UBLEAdapter: public UObject{
     public:
         UBLEAdapter();
         
+        void BeginDestroy() override;
+
         UFUNCTION(BlueprintCallable, Category = "BLE")
 		void InitRoutine();
 
