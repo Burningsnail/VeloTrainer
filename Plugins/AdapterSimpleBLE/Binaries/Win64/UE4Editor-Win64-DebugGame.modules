@@ -1,8 +1,0 @@
-{
-	"BuildId": "17155196",
-	"Modules": 
-	{
-		"AdapterSimpleBLE": "UE4Editor-AdapterSimpleBLE-Win64-DebugGame.dll",
-		"UEAdapterSimpleBLEModule": "UE4Editor-UEAdapterSimpleBLEModule-Win64-DebugGame.dll"
-	}
-}
